@@ -2,7 +2,7 @@
   <img src="icons/icon.png" width="100px" alt="Substitute image text here">
 </p>
 
-# QuickGPT
+# QuickLLM
 
 An application that instantly opens open ai chat (chat gpt or custom url) on your desktop
 
@@ -16,7 +16,7 @@ An application that instantly opens open ai chat (chat gpt or custom url) on you
 ## Usage
 ### 0. download
  - Download the latest version from the link below.
-   * https://github.com/TetsuakiBaba/quickGPT/releases
+   * https://github.com/andrewcincotta/quickLLM/releases
 ### 1. Show/Hide the chat window
  - Press Control+Shift+Q to show/hide the chat window.
  - If you want to open a custom chat, you can open it by entering the URL in the settings.
@@ -32,15 +32,15 @@ An application that instantly opens open ai chat (chat gpt or custom url) on you
 # Installation
 ## macOS, Windows
 A binary package is available for users on macOS. Please download the latest version of the zip file from the link below.
- * https://github.com/TetsuakiBaba/quickGPT/releases
+ * https://github.com/andrewcincotta/quickLLM/releases
 
 ## Linux
 Since we do not distribute binary packages, please follow the Build instructions to build the package.
 
 # Build
 ```
-git clone https://github.com/TetsuakiBaba/quickGPT.git
-cd quickGPT
+git clone https://github.com/andrewcincotta/quickLLM.git
+cd QuickLLM
 npm install
 npm start
 ```
@@ -50,5 +50,5 @@ If you want to make a application file on macOS, follow the below steps.
 ```
 npm exec --package=@electron-forge/cli -c "electron-forge import"
 npm run make
-open ./out/QuickGPT-darwin-arm64/QuickGPT.app 
+open ./out/QuickLLM-darwin-arm64/QuickLLM.app 
 ```

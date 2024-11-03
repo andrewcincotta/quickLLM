@@ -283,7 +283,7 @@ function createTray() {
                 const aboutWindowPosY = mainWindowPos[1] + (mainWindowSize[1] - aboutWindowHeight) / 2;
 
                 let win = new BrowserWindow({
-                    title: "About QuickGPT",
+                    title: "About QuickLLM",
                     width: aboutWindowWidth,
                     height: aboutWindowHeight,
                     x: aboutWindowPosX,
