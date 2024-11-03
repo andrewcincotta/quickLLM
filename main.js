@@ -357,6 +357,11 @@ app.whenReady().then(() => {
         mainWindow.loadURL(url_3);
     })
 
+    globalShortcut.register('Control+Shift+4', () => {
+        const url_4 = store.get('url_4', 'https://ollama.com/');
+        mainWindow.loadURL(url_4);
+    })
+
     const shortcut_toggle = store.get('shortcut_toggle', 'Control+Shift+Q');
     if (shortcut_toggle === undefined) {
         store.set('shortcut_toggle', 'Control+Shift+Q');
