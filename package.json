@@ -1,10 +1,13 @@
 {
   "name": "Quick-GPT",
-  "version": "1.2.2",
-  "description": "quick access to openai chat.",
+  "version": "2.0",
+  "description": "Quick access to various LLM chats.",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "dev:win": "set NODE_ENV=development && electron .",
+    "start-forge": "electron-forge start",
     "package": "electron-forge package",
     "package-win": "electron-forge package --platform=win32",
     "make": "electron-forge make",
@@ -14,8 +17,8 @@
     "type": "git",
     "url": "git+https://github.com/andrewcincotta/quickLLM.git"
   },
-  "author": "Tetsuaki BABA",
-  "license": "ISC",
+  "author": "Andrew Cincotta",
+  "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/andrewcincotta/quickLLM/issues"
   },

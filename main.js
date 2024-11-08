@@ -1,13 +1,26 @@
 // main.js
 
+const path = require('path')
 
 // automatic reload electron app when code changes
-// require('electron-reload')(__dirname, {
-//     electron: require(`${__dirname}/node_modules/electron`)
-// });
+const isDev = process.env.NODE_ENV === 'development';
 
 
-// run this as early in the main process as possible
+if (isDev) {
+    require('electron-reload')(__dirname, {
+        electron: require(`${__dirname}/node_modules/electron`),
+        hardResetMethod: 'exit',
+        watched: [
+            path.join(__dirname, 'main.js'),
+            path.join(__dirname, 'preload.js'),
+            path.join(__dirname, '*.html'),
+            path.join(__dirname, 'settings.js'),
+        ],
+        ignored: /node_modules|[\/\\]\./
+    });
+}
+
+
 if (require('electron-squirrel-startup')) app.quit();
 
 const is_windows = process.platform === 'win32';
@@ -29,7 +42,6 @@ updateElectronApp()
 ipcMain.on('set-url', (event, url) => {
     console.log('set-url', url);
     mainWindow.loadURL(url);
-    // 他のメインウィンドウ操作
 });
 ipcMain.on('set-shortcut', (event, value, old_shortcut) => {
     console.log('set-shortcut', value, old_shortcut);
@@ -39,7 +51,6 @@ ipcMain.on('set-shortcut', (event, value, old_shortcut) => {
     globalShortcut.register(value, () => {
         toggleWindow();
     });
-    // 他のメインウィンドウ操作
 });
 
 function createWindow() {
@@ -62,9 +73,7 @@ function createWindow() {
         alwaysOnTop: true
     })
 
-    // ウィンドウをドラッグして移動できるようにする
     //win.setWindowButtonVisibility(false); // only macos
-    // storeでurlが定義されてなければ、デフォルトのurlを開き、urlにはchat.openai.com/chatが入る
     const url = store.get('url', 'https://chat.openai.com/');
     if (url === undefined) {
         store.set('url', 'https://chat.openai.com/');
@@ -72,7 +81,7 @@ function createWindow() {
     win.loadURL(url);
     win.webContents.on('did-finish-load', () => {
         console.log('loaded');
-        const textBoxSelector = 'textarea'; // 任意のテキストボックスのセレクターを指定
+        const textBoxSelector = 'textarea';
         win.webContents.executeJavaScript(`
             const textBox = document.querySelector('${textBoxSelector}');
             if (textBox) {
@@ -80,7 +89,6 @@ function createWindow() {
             }
           `);
     });
-    // 以下を追加
     win.webContents.setWindowOpenHandler(({ url }) => {
         if (url.startsWith('http')) {
             shell.openExternal(url)
@@ -105,31 +113,8 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-const path = require('path')
-
 let tray = null
 
-// function toggleWindow() {
-//     if (mainWindow && mainWindow.isDestroyed()) {
-//         mainWindow = createWindow();
-//     }
-//     else {
-//         if (mainWindow.isVisible()) {
-//             mainWindow.hide()
-//         } else {
-//             mainWindow.show();
-//             mainWindow.on('show', () => {
-//                 mainWindow.focus();
-//                 const textBoxSelector = 'textarea'; // 任意のテキストボックスのセレクターを指定
-//                 mainWindow.webContents.executeJavaScript(`
-//                 document.querySelector('${textBoxSelector}').focus();
-//           `);
-//             });
-
-
-//         }
-//     }
-// }
 function toggleWindow() {
     if (mainWindow && mainWindow.isDestroyed()) {
         mainWindow = createWindow();
@@ -141,12 +126,10 @@ function toggleWindow() {
             const vp = store.get('visibility_position', 'mouse');
             console.log(vp);
             if (vp === 'mouse') {
-                // マウスポインタの現在の位置を取得
                 const { x, y } = screen.getCursorScreenPoint();
                 mainWindow.setPosition(x, y);
             }
             else if (vp === 'center') {
-                // ウィンドウをdisplayの中央に配置
                 const { width, height } = screen.getPrimaryDisplay().workAreaSize;
                 const mainWindowSize = mainWindow.getSize();
                 mainWindow.setPosition(
@@ -155,13 +138,13 @@ function toggleWindow() {
                 );
             }
             else if (vp === 'same') {
-                // 前回と同じでよければ何もしない
+                // foo
             }
 
             mainWindow.show();
             mainWindow.on('show', () => {
                 mainWindow.focus();
-                const textBoxSelector = 'textarea'; // 任意のテキストボックスのセレクターを指定
+                const textBoxSelector = 'textarea'; 
                 mainWindow.webContents.executeJavaScript(`
                 document.querySelector('${textBoxSelector}').focus();
           `);
@@ -173,38 +156,22 @@ function toggleWindow() {
 function createTray() {
 
     tray = new Tray(path.join(__dirname, './icons/IconTemplate.png'))
-    // 現時点では自動でダーク・ライトモードの取得に失敗しているので，コメントアウトしておく．
-    // console.log("nativeTheme:", nativeTheme)
-    // if (nativeTheme.shouldUseDarkColors) {
-    //     tray = new Tray(path.join(__dirname, './icons/icon_whitex16.png'))
-    // } else {
-    //     tray = new Tray(path.join(__dirname, './icons/icon_blackx16.png'))
-    // }
-
-    // nativeTheme.on('updated', () => {
-    //     if (nativeTheme.shouldUseDarkColors) {
-    //         tray.setImage('icons/icon_blackx16.png');
-    //     } else {
-    //         tray.setImage('icons/icon_whitex16.png');
-    //     }
-    // });
 
     const contextMenu = Menu.buildFromTemplate([
         {
             label: 'Toggle Visibility',
-            // accelerator: process.platform === 'darwin' ? 'Control+Shift+Q' : 'Control+Shift+Q',
             click: () => {
                 toggleWindow();
             }
         },
-        // electronでdark, light, systemのテーマを選択設定をするメニュー。ただしmacosだけ
+
         {
             label: 'Theme Mode',
             submenu: [
                 {
                     label: 'Dark Theme',
                     type: 'radio',
-                    checked: store.get('theme', 'system') === 'dark', // 保存された設定を読み込む
+                    checked: store.get('theme', 'system') === 'dark',
                     click: () => {
                         nativeTheme.themeSource = 'dark';
                         store.set('theme', 'dark');
@@ -213,7 +180,7 @@ function createTray() {
                 {
                     label: 'Light Theme',
                     type: 'radio',
-                    checked: store.get('theme', 'system') === 'light', // アプリ起動時のデフォルト設定に基づいて、適宜変更してください。
+                    checked: store.get('theme', 'system') === 'light', 
                     click: () => {
                         nativeTheme.themeSource = 'light';
                         store.set('theme', 'light');
@@ -222,7 +189,7 @@ function createTray() {
                 {
                     label: 'System Theme',
                     type: 'radio',
-                    checked: store.get('theme', 'system') === 'system', // システムのテーマ設定に基づく場合はこちらをtrueにします。
+                    checked: store.get('theme', 'system') === 'system', 
                     click: () => {
                         nativeTheme.themeSource = 'system';
                         store.set('theme', 'system');
@@ -315,22 +282,8 @@ function createTray() {
 
 
 app.whenReady().then(() => {
-    // Dockからアプリを隠す
     if (app.dock) app.dock.hide();
     global.mainWindow = mainWindow = createWindow()
-    // let menu = Menu.buildFromTemplate(
-    //     [
-    //         {
-    //             label: app.name,
-    //             submenu: [
-    //                 {
-    //                     role: 'quit',
-    //                     label: `${ app.name }を終了`
-    //                 }
-    //             ]
-    //         }
-    //     ]);
-    // Menu.setApplicationMenu(menu);
     createTray()
 
     app.on('activate', function () {
@@ -380,4 +333,3 @@ app.on('window-all-closed', function () {
 app.on('will-quit', () => {
     globalShortcut.unregisterAll()
 })
-
