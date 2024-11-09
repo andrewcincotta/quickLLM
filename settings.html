@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>QuickGTP Settings</title>
+    <title>QuickLLM Settings</title>
     <link href="./bootstrap.min.css" rel="stylesheet">
     </link>
 </head>
@@ -104,7 +104,6 @@
             const visibility_position = document.querySelector('input[name="options-base"]:checked').id.split('_')[1];
             electronStore.set('visibility_position', visibility_position);
             console.log(visibility_position);
-            // input_url のボタンを success にして、文字をsavedに変更。3秒後に戻る
             this.textContent = 'Saved';
             this.classList.remove('btn-primary');
             this.classList.add('btn-success');
@@ -154,7 +153,6 @@
             document.querySelector('#input_url_3').value = electronStore.get('url_3');
             document.querySelector('#input_shortcut').value = electronStore.get('shortcut_toggle');
 
-            // visibility_position
             const visibility_position = electronStore.get('visibility_position');
             if (visibility_position === undefined) {
                 electronStore.set('visibility_position', 'mouse');
@@ -175,60 +173,49 @@
 
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             if (event.matches) {
-                // ユーザーがダークモードを選択した場合の処理
+                ユーザーがダークモードを選択した場合の処理
                 document.body.classList.add('dark-mode');
             } else {
-                // ユーザーがライトモードを選択した場合の処理
                 document.body.classList.remove('dark-mode');
             }
         });
 
-        // ダークモードの設定を監視し、変更があった場合に実行する関数
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             if (event.matches) {
-                // システムテーマがダークモードの場合
                 document.documentElement.setAttribute('data-bs-theme', 'dark');
             } else {
-                // システムテーマがライトモードの場合
                 document.documentElement.setAttribute('data-bs-theme', 'light');
             }
         });
 
-        // ページロード時にもシステムテーマに応じてテーマを設定
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.setAttribute('data-bs-theme', 'dark');
         } else {
             document.documentElement.setAttribute('data-bs-theme', 'light');
         }
 
-        // ショートカット入力フィールドの参照
         const input = document.getElementById('input_shortcut');
 
 
 
-        // キー入力を検出して入力フィールドに表示
         input.addEventListener('keydown', function (event) {
-            event.preventDefault(); // デフォルトのキーイベントを防ぐ
+            event.preventDefault();
 
-            // 修飾キーのみが押された場合は無視（組み合わせに含めない）
             if (event.key === "Control" || event.key === "Shift" || event.key === "Alt" || event.key === "Meta") {
-                return; // 修飾キーのみの場合は何もしない
+                return;
             }
 
-            // 押された修飾キーと通常のキーを識別
             const ctrlKey = event.ctrlKey ? "Control+" : "";
             const shiftKey = event.shiftKey ? "Shift+" : "";
             const altKey = event.altKey ? "Alt+" : "";
-            const metaKey = event.metaKey ? "Command+" : ""; // macOSのコマンドキー
-            const key = event.key === " " ? "Space" : event.key; // スペースキーの識別
+            const metaKey = event.metaKey ? "Command+" : "";
+            const key = event.key === " " ? "Space" : event.key;
 
-            // キーの組み合わせを作成
             const combination = `${ctrlKey}${shiftKey}${altKey}${metaKey}${key}`;
 
-            // 組み合わせを入力フィールドに表示
             this.value = combination;
 
-            // TODO: ショートカットをlocalStorageに保存するなどの処理を追加
+            // TODO: Added processing such as saving shortcuts to localStorage
         });
 
     </script>

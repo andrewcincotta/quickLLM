@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld('electronStore', {
         if (key === 'url_1') {
             ipcRenderer.send('set-url', value);
         }
-        // key に shortcut_ が含まれていたら
+        // If your key shortcut contains 'shortcut_'
         if (key.includes('shortcut_')) {
             ipcRenderer.send('set-shortcut', value, store.get(key));
         }
