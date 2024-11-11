@@ -1,17 +1,21 @@
 {
-  "name": "Quick-GPT",
+  "name": "Quick-LLM",
   "version": "2.0",
   "description": "Quick access to various LLM chats.",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
     "dev": "NODE_ENV=development electron .",
     "dev:win": "set NODE_ENV=development && electron .",
     "start-forge": "electron-forge start",
     "package": "electron-forge package",
     "package-win": "electron-forge package --platform=win32",
     "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "publish": "electron-forge publish",
+    "build:mac": "electron-forge make --platform darwin --arch arm64,x64",
+    "build:win": "electron-forge make --platform win32 --arch x64",
+    "build:linux": "electron-forge make --platform linux --arch x64",
+    "build:all": "electron-forge make --platform darwin,win32,linux --arch x64,arm64"
   },
   "repository": {
     "type": "git",
@@ -24,24 +28,84 @@
   },
   "homepage": "https://github.com/andrewcincotta/quickLLM#readme",
   "devDependencies": {
-    "@electron-forge/cli": "^7.3.0",
-    "@electron-forge/maker-deb": "^7.3.0",
+    "@electron-forge/cli": "^7.5.0",
+    "@electron-forge/maker-deb": "^7.5.0",
     "@electron-forge/maker-dmg": "^7.3.0",
-    "@electron-forge/maker-rpm": "^7.3.0",
-    "@electron-forge/maker-squirrel": "^7.3.0",
-    "@electron-forge/maker-zip": "^7.3.0",
+    "@electron-forge/maker-rpm": "^7.5.0",
+    "@electron-forge/maker-squirrel": "^7.5.0",
+    "@electron-forge/maker-zip": "^7.5.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
+    "@electron-forge/plugin-fuses": "^7.5.0",
     "@electron-forge/publisher-github": "^7.3.0",
+    "@electron/fuses": "^1.8.0",
     "electron": "^29.1.0"
   },
   "dependencies": {
-    "@electron-forge/plugin-auto-unpack-natives": "^7.3.0",
     "bootstrap": "^5.3.3",
     "electron": "^29.1.0",
     "electron-drag": "^2.0.0",
     "electron-reload": "^2.0.0-alpha.1",
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^8.1.0",
     "osx-mouse": "^2.0.0",
     "update-electron-app": "^3.0.0"
+  },
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Quick-LLM"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin",
+            "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO",
+            "name": "Quick-LLM"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "packagerConfig": {
+        "name": "Quick-LLM",
+        "executableName": "Quick-LLM",
+        "icon": "./assets/icon",
+        "asar": true,
+        "osxSign": {
+          "identity": null,
+          "hardenedRuntime": true,
+          "entitlements": "entitlements.plist",
+          "entitlements-inherit": "entitlements.plist",
+          "gatekeeper-assess": false
+        }
+      },
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "andrewcincotta",
+              "name": "quickLLM"
+            }
+          }
+        }
+      ]
+    }
   }
 }
