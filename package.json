@@ -1,5 +1,5 @@
 {
-  "name": "Quick-LLM",
+  "name": "Quick-GPT",
   "version": "2.0",
   "description": "Quick access to various LLM chats.",
   "main": "main.js",
@@ -12,10 +12,10 @@
     "package-win": "electron-forge package --platform=win32",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "build:mac": "electron-forge make --platform darwin --arch arm64,x64",
-    "build:win": "electron-forge make --platform win32 --arch x64",
-    "build:linux": "electron-forge make --platform linux --arch x64",
-    "build:all": "electron-forge make --platform darwin,win32,linux --arch x64,arm64"
+    "build:mac": "NODE_OPTIONS='--no-warnings --deprecation' electron-forge make --platform darwin --arch arm64,x64",
+    "build:win": "NODE_OPTIONS='--no-warnings --deprecation' electron-forge make --platform win32 --arch x64",
+    "build:linux": "NODE_OPTIONS='--no-warnings --deprecation' electron-forge make --platform linux --arch x64",
+    "build:all": "NODE_OPTIONS='--no-warnings --deprecation' electron-forge make --platform darwin,win32,linux --arch x64,arm64"
   },
   "repository": {
     "type": "git",
@@ -30,15 +30,18 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.5.0",
     "@electron-forge/maker-deb": "^7.5.0",
-    "@electron-forge/maker-dmg": "^7.5.0",
+    "@electron-forge/maker-dmg": "^7.3.0",
     "@electron-forge/maker-rpm": "^7.5.0",
     "@electron-forge/maker-squirrel": "^7.5.0",
     "@electron-forge/maker-zip": "^7.5.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
     "@electron-forge/plugin-fuses": "^7.5.0",
     "@electron-forge/publisher-github": "^7.3.0",
+    "@electron/asar": "^3.2.8",
     "@electron/fuses": "^1.8.0",
-    "electron": "^29.1.0"
+    "electron": "^29.1.0",
+    "glob": "^10.3.10",
+    "rimraf": "^5.0.5"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
@@ -52,57 +55,19 @@
   },
   "config": {
     "forge": {
+      "packagerConfig": {
+        "name": "Quick-GPT",
+        "asar": true
+      },
       "makers": [
         {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Quick-LLM"
-          }
-        },
-        {
           "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin",
-            "linux"
-          ]
+          "platforms": ["darwin"]
         },
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "format": "ULFO",
-            "name": "Quick-LLM"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "packagerConfig": {
-        "name": "Quick-LLM",
-        "executableName": "Quick-LLM",
-        "icon": "./assets/icon",
-        "asar": true,
-        "osxSign": {
-          "identity": null,
-          "hardenedRuntime": true,
-          "entitlements": "entitlements.plist",
-          "entitlements-inherit": "entitlements.plist",
-          "gatekeeper-assess": false
-        }
-      },
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "andrewcincotta",
-              "name": "quickLLM"
-            }
+            "name": "Quick-GPT"
           }
         }
       ]
