@@ -1,54 +1,104 @@
 <p align="center">
-  <img src="icons/icon.png" width="100px" alt="Substitute image text here">
+  <img src="icons/icon.png" width="100px" alt="QuickLLM Icon">
 </p>
 
 # QuickLLM
 
-An application that instantly opens open ai chat (chat gpt or custom url) on your desktop
+A desktop application for instant access to various LLM chats, including ChatGPT and custom chat URLs.
 
- * Quick-1: You can instantly switch between displaying and hiding chats with keyboard shortcuts.
- * Quick-2: The chat window is always displayed on the position(mouse, display center, last position) where you want.
- * Quick-3: When switching between views, the input prompt is automatically activated so that you can enter text immediately.
+## ✨ Key Features
 
+* **Instant Toggle**: Quickly show/hide chats with keyboard shortcuts
+* **Smart Positioning**: Window appears where you need it (mouse position, display center, or last position)
+* **Quick Input**: Input field automatically activates when switching views
+* **Multiple Chats**: Support for multiple chat interfaces and custom URLs
 
 ![](./teaser.png)![](./settings.png)
 
-## Usage
-### 0. download
- - Download the latest version from the link below.
-   * https://github.com/andrewcincotta/quickLLM/releases
-### 1. Show/Hide the chat window
- - Press Control+Shift+Q to show/hide the chat window.
- - If you want to open a custom chat, you can open it by entering the URL in the settings.
-### 2. Switch the chat window
- - Press Control+Shift+1,2,3 to switch the chat window.
-  - If you want to switch to a custom chat, you can switch it by entering the URL in the settings.
+## 🚀 Getting Started
 
-## Shortcut list
- - Control+Shift+Q: Toggle window display
- - Control+Shift+1,2,3: Change the chat window
+### Installation
+
+Download the latest version for your platform from our [releases page](https://github.com/andrewcincotta/quickLLM/releases).
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+Shift+Space` | Show/Hide chat window |
+| `Ctrl+Shift+1,2,3,4` | Switch between chat windows |
+| `Ctrl+Shift+Q` | Toggle window display |
+
+### Configuration
+1. Launch the application
+2. Open settings to customize:
+   - Chat URLs
+   - Window position preferences
+   - Other display options
 
 
-# Installation
-## macOS, Windows
-A binary package is available for users on macOS. Please download the latest version of the zip file from the link below.
- * https://github.com/andrewcincotta/quickLLM/releases
+## 🗺️ Roadmap
 
-## Linux
-Since we do not distribute binary packages, please follow the Build instructions to build the package.
+- [ ] Option to toggle always on top
+- [ ] Improved Linux and Windows support
+- [ ] Ollama support (native or through OpenWebUI)
 
-# Build
-```
+## 💻 Development
+
+### Initial Setup
+```bash
+# Clone the repository
 git clone https://github.com/andrewcincotta/quickLLM.git
-cd QuickLLM
+cd quickLLM
+
+# Install dependencies
 npm install
-npm start
 ```
 
-If you want to make a application file on macOS, follow the below steps.
+### Development Mode
 
+For macOS:
+```bash
+npm run dev
 ```
-npm exec --package=@electron-forge/cli -c "electron-forge import"
-npm run make
-open ./out/QuickLLM-darwin-arm64/QuickLLM.app 
+
+For Windows:
+```bash
+npm run dev:win
+```
+
+### Building Applications
+
+#### Build for macOS
+```bash
+npm run build:mac
+
+# Output locations:
+# - DMG installer: ./out/make/dmg/darwin
+# - ZIP archive: ./out/make/zip/darwin
+# - Unpackaged app: ./out/Quick-GPT-darwin-[arch]/Quick-GPT.app
+```
+
+#### Build for Windows
+```bash
+npm run build:win
+
+# Output locations:
+# - Installer: ./out/make/squirrel.windows/x64
+# - Unpackaged app: ./out/Quick-GPT-win32-x64
+```
+
+#### Build for Linux
+```bash
+npm run build:linux
+
+# Output locations:
+# - DEB package: ./out/make/deb/x64
+# - RPM package: ./out/make/rpm/x64
+# - ZIP archive: ./out/make/zip/linux
+```
+
+#### Build for All Platforms
+```bash
+npm run build:all
 ```
