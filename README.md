@@ -40,8 +40,9 @@ Download the latest version for your platform from our [releases page](https://g
 ## 🗺️ Roadmap
 
 - [ ] Option to toggle always on top
-- [ ] Improved Linux and Windows support
+- [ ] Option to toggle launch on startup
 - [ ] Ollama support (native or through OpenWebUI)
+- [ ] Improved Linux and Windows support
 
 ## 💻 Development
 
