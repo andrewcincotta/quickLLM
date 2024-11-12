@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+</head>
+
+<body>
+    <h1>App Settings</h1>
+
+    <label for="alwaysOnTop">Always on Top</label>
+    <input type="checkbox" id="alwaysOnTop">
+
+    <br>
+
+    <label for="theme">Theme</label>
+    <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">System Default</option>
+    </select>
+
+    <br>
+
+    <button id="saveBtn">Save Settings</button>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        // Get current settings
+        const alwaysOnTop = localStorage.getItem('alwaysOnTop') === 'true';
+        const theme = localStorage.getItem('theme') || 'system';
+
+        document.getElementById('alwaysOnTop').checked = alwaysOnTop;
+        document.getElementById('theme').value = theme;
+
+        // Save settings to localStorage or directly to store (via IPC)
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const alwaysOnTop = document.getElementById('alwaysOnTop').checked;
+            const theme = document.getElementById('theme').value;
+
+            localStorage.setItem('alwaysOnTop', alwaysOnTop);
+            localStorage.setItem('theme', theme);
+
+            ipcRenderer.send('save-settings', { alwaysOnTop, theme });
+        });
+    </script>
+</body>
+
+</html>

@@ -3,7 +3,6 @@
   "version": "3.0.0",
   "description": "access various llms through a desktop app",
   "main": "main.js",
-  "type": "module",
   "scripts": {
     "start": "electron .",
     "dev": "NODE_ENV=development electron .",
@@ -19,13 +18,22 @@
       "package.json"
     ],
     "mac": {
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "win": {
-      "target": ["nsis", "zip"]
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "linux": {
-      "target": ["AppImage", "deb"]
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     }
   },
   "repository": {
@@ -47,5 +55,8 @@
     "electron": "^33.2.0",
     "electron-builder": "^25.1.8",
     "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.0"
   }
 }
