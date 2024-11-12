@@ -1,0 +1,28 @@
+{
+  "name": "quickllm",
+  "version": "3.0.0",
+  "description": "access various llms through desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewcincotta/quickLLM.git"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "electron"
+  ],
+  "author": "Andrew Cincotta",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/andrewcincotta/quickLLM/issues"
+  },
+  "homepage": "https://github.com/andrewcincotta/quickLLM#readme",
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}
