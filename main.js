@@ -1,6 +1,16 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
 import path from 'path';
 
+// Enable hot reloading during development (dynamic import for ES modules)
+if (process.env.NODE_ENV === 'development') {
+    import('electron-reload').then(({ default: electronReload }) => {
+        electronReload(__dirname, {
+            electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+            hardResetMethod: 'exit'
+        });
+    });
+}
+
 let mainWindow = null;
 
 function createWindow() {
@@ -35,8 +45,14 @@ function toggleWindow() {
 }
 
 app.whenReady().then(() => {
-    globalShortcut.register('Contorl+Shift+Space', toggleWindow);
-    
+    const isRegistered = globalShortcut.register('Control+Shift+Space', toggleWindow);
+
+    if (!isRegistered) {
+        console.log('Shortcut registration failed');
+    } else {
+        console.log('Shortcut registered successfully');
+    }
+
     createWindow();
 
     app.on('activate', () => {
