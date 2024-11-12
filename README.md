@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="icons/icon.png" width="100px" alt="QuickLLM Icon">
-</p>
-
 # QuickLLM
 
 A desktop application for instant access to various LLM chats, including ChatGPT and custom chat URLs.
@@ -12,8 +8,6 @@ A desktop application for instant access to various LLM chats, including ChatGPT
 * **Smart Positioning**: Window appears where you need it (mouse position, display center, or last position)
 * **Quick Input**: Input field automatically activates when switching views
 * **Multiple Chats**: Support for multiple chat interfaces and custom URLs
-
-![](./teaser.png)![](./settings.png)
 
 ## 🚀 Getting Started
 
