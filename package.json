@@ -1,8 +1,9 @@
 {
   "name": "quickllm",
   "version": "3.0.0",
-  "description": "access various llms through desktop app",
+  "description": "access various llms through a desktop app",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
